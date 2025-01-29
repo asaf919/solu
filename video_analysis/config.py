@@ -22,5 +22,3 @@ if ENVIRONMENT == Environment.DEBUG:
         shutil.rmtree(BASE_OUTPUT_FOLDER)  # Delete old debug files
     os.makedirs(BASE_OUTPUT_FOLDER)
     os.makedirs(os.path.join(BASE_OUTPUT_FOLDER, "streamer"))
-    os.makedirs(os.path.join(BASE_OUTPUT_FOLDER, "detector"))
-    os.makedirs(os.path.join(BASE_OUTPUT_FOLDER, "displayer"))

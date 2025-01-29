@@ -17,6 +17,7 @@ class Displayer:
         memory_decay: int = 8,  # Number of frames to keep blurring after motion stops
         blur_strength: tuple[int, int] = (17, 17),  # Kernel size for Gaussian blur
         padding: int = 12,  # Extra padding to ensure full object coverage
+        log_every_n: int = 50,  # Log progress every N frames
     ) -> None:
         self.logger = get_logger("Displayer")
         self.output_queue: Queue = output_queue
@@ -27,6 +28,8 @@ class Displayer:
         self.memory_decay: int = memory_decay
         self.blur_strength: tuple[int, int] = blur_strength
         self.padding: int = padding
+        self.log_every_n: int = log_every_n
+        self.frame_count: int = 0  # Track processed frames
 
         # Memory buffer for keeping blur active on recent detections
         self.blur_memory: list[list[dict[str, int]]] = []
@@ -43,6 +46,7 @@ class Displayer:
     def process_frame(self, detection_result: DetectionResult) -> cv2.Mat:
         """Blurs detections with memory retention and overlays timestamp."""
         frame = detection_result.frame.copy()
+        self.frame_count += 1  # Track processed frames
 
         # Store detections in memory to prevent instant blur disappearance
         self.blur_memory.append(detection_result.detections)
@@ -79,6 +83,12 @@ class Displayer:
             2,
             cv2.LINE_AA,
         )
+
+        # Log progress every `log_every_n` frames
+        if self.frame_count % self.log_every_n == 0:
+            self.logger.info(
+                f"Processed frame {self.frame_count} at {detection_result.timestamp:.2f} sec - {len(detection_result.detections)} regions blurred"
+            )
 
         return frame
 
