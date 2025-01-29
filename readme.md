@@ -12,15 +12,15 @@ This project detects motion in a video, applies blurring to detected areas, and 
 
 ## 🚀 Installation
 
-1. **Clone the repository**:
    ```sh
    git clone https://github.com/asaf919/solu.git
    cd solu
-   python -m venv venv
+   python3.12 -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    pip install -r requirements.txt
    ```
-   
+**Note**: This project was tested on **Python 3.12**.
+
 ---
 
 ## ▶️ Running the Program
