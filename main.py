@@ -1,4 +1,5 @@
 import os
+import argparse
 import threading
 from queue import Queue
 from video_analysis.streamer import Streamer
@@ -6,17 +7,15 @@ from video_analysis.detector import Detector
 from video_analysis.displayer import Displayer
 from video_analysis.video_metadata import VideoMetadataExtractor
 
-VIDEO_FILE_NAME = "vid1.mp4"
 OUTPUT_VIDEO_NAME = "output.mp4"  # Output file for the final processed video
 
 
-def main() -> None:
+def main(input_video: str) -> None:
     """Runs the video processing pipeline in parallel using multithreading."""
     frame_queue: Queue = Queue()
     output_queue: Queue = Queue()
 
-    video_path: str = os.path.join("videos", VIDEO_FILE_NAME)
-    output_video_path: str = os.path.join("videos", OUTPUT_VIDEO_NAME)
+    video_path: str = os.path.join("videos", input_video)
 
     # Extract video metadata
     metadata_extractor = VideoMetadataExtractor(video_path)
@@ -27,7 +26,7 @@ def main() -> None:
     detector: Detector = Detector(frame_queue, output_queue)
     displayer: Displayer = Displayer(
         output_queue,
-        output_video_path,
+        OUTPUT_VIDEO_NAME,
         frame_width=metadata["frame_width"],
         frame_height=metadata["frame_height"],
         fps=metadata["fps"],
@@ -55,4 +54,10 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Run video motion detection pipeline.")
+    parser.add_argument(
+        "--input_video", type=str, required=True, help="Path to the input video file."
+    )
+    args = parser.parse_args()
+
+    main(args.input_video)

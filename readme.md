@@ -19,10 +19,9 @@ This project detects motion in a video, applies blurring to detected areas, and 
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    pip install -r requirements.txt
-    ```
+   ```
    
 ---
-
 
 ## ▶️ Running the Program
 
@@ -37,15 +36,22 @@ Both modes **print logs to the console** and **store logs in the `debug_output/`
 
 ### **1️⃣ Running the Multithreaded Version**
    ```sh
-   python main.py
+   python main.py --input_video <path_to_input_video>
    ```
+
+- output is stored as an output.mp4 file in the root directory.
 
 ---
 
-
 ### **2️⃣ Running the Sequential Version**
    ```sh
-   python main_seq.py
+   python main_seq.py --input_video <path_to_input_video>
    ```
 
---- 
+- output is stored as an output.mp4 file in the root directory.
+
+---
+
+## ✅ Running Tests (Currently Disabled)
+
+> ⚠️ **Due to technical issues, the tests are currently not working and have been commented out.**
