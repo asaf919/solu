@@ -54,7 +54,7 @@ def main(input_video: str) -> None:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run video motion detection pipeline.")
+    parser = argparse.ArgumentParser(description="Run video motion detection multithreaded pipeline.")
     parser.add_argument(
         "--input_video", type=str, required=True, help="Path to the input video file."
     )
